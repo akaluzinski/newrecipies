@@ -1,8 +1,8 @@
 package eu.kaluzinski.recipies.model;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +10,7 @@ public class CategoryTest {
 
     Category category;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         category = new Category();
     }

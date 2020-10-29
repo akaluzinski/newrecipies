@@ -2,8 +2,8 @@ package eu.kaluzinski.recipies.model;
 
 import eu.kaluzinski.recipies.repositories.RecipeRepository;
 import eu.kaluzinski.recipies.services.RecipeServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -22,7 +22,7 @@ public class RecipeTest {
     @Mock
     RecipeRepository recipeRepository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         recipeService = new RecipeServiceImpl(recipeRepository);
