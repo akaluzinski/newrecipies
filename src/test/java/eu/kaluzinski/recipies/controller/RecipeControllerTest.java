@@ -1,5 +1,6 @@
 package eu.kaluzinski.recipies.controller;
 
+import eu.kaluzinski.recipies.exceptions.NotFoundException;
 import eu.kaluzinski.recipies.model.Recipe;
 import eu.kaluzinski.recipies.services.RecipeService;
 import lombok.SneakyThrows;
@@ -44,5 +45,19 @@ public class RecipeControllerTest {
         mockMvc.perform(get("/recipe/show/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"));
+    }
+
+    @SneakyThrows
+    @Test
+    void shouldReturn404WhenRecipeDoesNotExist() {
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+
+        when(recipeService.getRecipeById(anyLong())).thenThrow(new NotFoundException("test"));
+
+        mockMvc.perform(get("/recipe/show/3"))
+                .andExpect(status().isNotFound());
     }
 }
