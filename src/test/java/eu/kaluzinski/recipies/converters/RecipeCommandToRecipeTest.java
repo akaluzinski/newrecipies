@@ -53,8 +53,8 @@ public class RecipeCommandToRecipeTest {
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(RECIPE_ID);
-        recipeCommand.setCookTime(COOK_TIME);
-        recipeCommand.setPrepTime(PREP_TIME);
+        recipeCommand.setCookingTime(COOK_TIME);
+        recipeCommand.setPreparationTime(PREP_TIME);
         recipeCommand.setDescription(DESCRIPTION);
         recipeCommand.setDifficulty(DIFFICULTY);
         recipeCommand.setDirections(DIRECTIONS);

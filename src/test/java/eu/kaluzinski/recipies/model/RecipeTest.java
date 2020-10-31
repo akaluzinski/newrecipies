@@ -1,5 +1,7 @@
 package eu.kaluzinski.recipies.model;
 
+import eu.kaluzinski.recipies.converters.RecipeCommandToRecipe;
+import eu.kaluzinski.recipies.converters.RecipeToRecipeCommand;
 import eu.kaluzinski.recipies.repositories.RecipeRepository;
 import eu.kaluzinski.recipies.services.RecipeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +28,16 @@ public class RecipeTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test

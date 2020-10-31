@@ -14,8 +14,8 @@ import java.util.Set;
 public class RecipeCommand {
     private Long id;
     private String description;
-    private Integer prepTime;
-    private Integer cookTime;
+    private Integer preparationTime;
+    private Integer cookingTime;
     private Integer servings;
     private String source;
     private String url;
