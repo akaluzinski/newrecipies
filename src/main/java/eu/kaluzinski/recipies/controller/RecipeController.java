@@ -1,6 +1,7 @@
 package eu.kaluzinski.recipies.controller;
 
 import eu.kaluzinski.recipies.commands.RecipeCommand;
+import eu.kaluzinski.recipies.exceptions.BadRequestException;
 import eu.kaluzinski.recipies.exceptions.NotFoundException;
 import eu.kaluzinski.recipies.services.RecipeService;
 import org.springframework.stereotype.Controller;
@@ -23,12 +24,18 @@ public class RecipeController {
 
     @RequestMapping("/recipe/show/{id}")
     public String showById(@PathVariable String id, Model model) {
-        model.addAttribute("recipe", recipeService.getRecipeById(Long.valueOf(id)));
+
+        try {
+            model.addAttribute("recipe", recipeService.getRecipeById(Long.valueOf(id)));
+        } catch (NumberFormatException numberFormatException) {
+            throw new BadRequestException(numberFormatException.getMessage());
+        }
+
         return "recipe/show";
     }
 
     @RequestMapping("recipe/new")
-    public String createRecipe(Model model){
+    public String createRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
 
         return "recipe/createform";
@@ -40,12 +47,17 @@ public class RecipeController {
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
 
         return String.format("redirect:/recipe/show/%d", savedCommand.getId());
+    }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ModelAndView handleBadRequestException() {
+        return new ModelAndView("404error");
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView handleNotFoundException() {
         return new ModelAndView("404error");
     }
+
 
 }
