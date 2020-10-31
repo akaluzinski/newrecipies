@@ -21,6 +21,10 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <form  th:object="${recipe}" th:action="@{/recipe/}"  method="post">
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <p>Please correct errors</p>
+                </div>
+
                 <input type="hidden" th:field="*{id}"/>
                 <div class="pannel-group">
                     <div class="panel panel-primary">
