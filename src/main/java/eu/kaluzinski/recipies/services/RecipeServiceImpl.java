@@ -32,26 +32,40 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Set<Recipe> getRecipes() {
         Set<Recipe> recipeSet = new HashSet<>();
-        log.debug("Get recipes");
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
         return recipeSet;
     }
 
     @Override
-    public Recipe getRecipeById(Long id) {
-        Optional<Recipe> recipeOptional = recipeRepository.findById(id);
+    public Recipe findById(Long l) {
+
+        Optional<Recipe> recipeOptional = recipeRepository.findById(l);
 
         if (!recipeOptional.isPresent()) {
-            throw new NotFoundException(String.format("Recipe %d not found", id));
+            throw new NotFoundException(String.format("Recipe Not Found. For ID value: %d", l));
         }
+
         return recipeOptional.get();
     }
 
     @Override
     @Transactional
+    public RecipeCommand findCommandById(Long l) {
+        return recipeToRecipeCommand.convert(findById(l));
+    }
+
+    @Override
+    @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
-        Recipe savedRecipe = recipeRepository.save(recipeCommandToRecipe.convert(command));
-        log.debug(String.format("Save recipe:%d", savedRecipe.getId()));
+        Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
+
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.debug("Saved RecipeId:" + savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);
+    }
+
+    @Override
+    public void deleteById(Long idToDelete) {
+        recipeRepository.deleteById(idToDelete);
     }
 }
